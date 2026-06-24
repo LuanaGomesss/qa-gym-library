@@ -18,6 +18,10 @@ public class LoanService {
             throw new LoanNotAllowedException("O livro não está disponível para empréstimo.");
         }
 
+        if (!user.isActive()) {
+            throw new LoanNotAllowedException("O usuário está inativo e não pode realizar empréstimos.");
+        }
+
         book.setAvailable(false);
         Loan loan = new Loan(book, user, date);
         loans.add(loan);

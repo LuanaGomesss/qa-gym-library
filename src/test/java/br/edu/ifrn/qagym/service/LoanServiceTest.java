@@ -68,4 +68,14 @@ class LoanServiceTest {
                 .isInstanceOf(LoanNotAllowedException.class)
                 .hasMessageContaining("O livro não está disponível para empréstimo.");
     }
+
+    @Test
+    void naoDevePermitirEmprestimoParaUsuarioInativo() {
+
+        user.setActive(false);
+
+        assertThatThrownBy(() -> loanService.borrowBook(book, user, LocalDate.now()))
+                .isInstanceOf(LoanNotAllowedException.class)
+                .hasMessageContaining("O usuário está inativo e não pode realizar empréstimos.");
+    }
 }
